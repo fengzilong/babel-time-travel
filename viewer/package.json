@@ -1,0 +1,25 @@
+{
+  "name": "viewer",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "react": "^17.0.0",
+    "react-diff-viewer": "^3.1.1",
+    "react-dom": "^17.0.0",
+    "react-select": "^5.1.0",
+    "react-spinners": "^0.11.0",
+    "shiki": "^0.9.12",
+    "shiki-languages": "^0.2.7",
+    "shiki-themes": "^0.2.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^1.0.0",
+    "less": "^4.1.2",
+    "vite": "^2.6.4"
+  }
+}

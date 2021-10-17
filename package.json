@@ -1,0 +1,36 @@
+{
+  "name": "babel-time-travel",
+  "version": "0.1.0",
+  "keywords": [
+    "babel",
+    "time travel",
+    "debug",
+    "debugger",
+    "webpack",
+    "plugin"
+  ],
+  "description": "Debugger for babel",
+  "main": "lib/index.js",
+  "scripts": {
+    "prepublishOnly": "npm run build --prefix ./viewer"
+  },
+  "files": [
+    "lib",
+    "viewer/dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fengzilong/babel-debugger.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fengzilong/babel-debugger/issues"
+  },
+  "homepage": "https://github.com/fengzilong/babel-debugger#readme",
+  "dependencies": {
+    "@babel/generator": "^7.15.8",
+    "get-port": "^5.1.1",
+    "serve-handler": "^6.1.3"
+  }
+}
