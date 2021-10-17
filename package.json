@@ -20,14 +20,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fengzilong/babel-debugger.git"
+    "url": "git+https://github.com/fengzilong/babel-time-travel.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fengzilong/babel-debugger/issues"
+    "url": "https://github.com/fengzilong/babel-time-travel/issues"
   },
-  "homepage": "https://github.com/fengzilong/babel-debugger#readme",
+  "homepage": "https://github.com/fengzilong/babel-time-travel#readme",
   "dependencies": {
     "@babel/generator": "^7.15.8",
     "get-port": "^5.1.1",
