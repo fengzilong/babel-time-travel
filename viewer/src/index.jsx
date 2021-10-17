@@ -6,7 +6,6 @@ import jsGrammar from 'shiki-languages/data/javascript.tmLanguage.json'
 
 import App from './App'
 import theme from './theme.json'
-import './index.css'
 
 setCDN( '/shiki/' )
 
