@@ -1,0 +1,15 @@
+{
+  "name": "babel-demo",
+  "private": true,
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "debug": "node ../../bin/index.js npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8"
+  }
+}

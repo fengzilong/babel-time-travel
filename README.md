@@ -13,28 +13,26 @@ Tell you the story about how every babel plugin transform your file inside a bla
 ## Installation
 
 ```bash
-npm i babel-time-travel
+npm i babel-time-travel -g
 ```
 
 ## Usage
 
-```js
-const { WebpackHijackPlugin, WebpackPlugin } = require( 'babel-time-travel' )
+`babel-time-travel` will register a global command named `btt` after a global installation
 
-// in your webpack config
-{
-  plugins: [
-    // hijack plugin is used to hook your babel
-    new WebpackHijackPlugin(),
-    // webpack plugin is used to serve the time travel viewer page
-    new WebpackPlugin(),
-  ]
-}
+To use it, simply add your own command after `btt`
+
+```bash
+btt npm run build
+btt babel src --out-dir lib
+btt ... # any other command
 ```
+
+Please note that blackboxed `babel` should run in the same process with your command
 
 ## Thanks
 
-Highly inspired by [babel/babel-time-travel](https://github.com/babel/babel-time-travel) which supports view time-travel in browser
+Highly inspired by [babel/babel-time-travel](https://github.com/babel/babel-time-travel) which supports time travel in browser
 
 ## License
 
