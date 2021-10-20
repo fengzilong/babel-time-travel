@@ -1,10 +1,16 @@
 /* eslint-disable max-len */
 /* eslint-disable no-magic-numbers */
 import { useState, useMemo, useEffect } from 'react'
-import ReactDiffViewer from 'react-diff-viewer'
+import { parseDiff, Diff, Hunk } from 'react-diff-view'
 import Select from 'react-select'
-import { renderToHtml } from 'shiki'
+import tokenize from './tokenize'
+
+import 'react-diff-view/style/index.css'
+import 'prism-color-variables/variables.css'
+import 'prism-color-variables/themes/visual-studio.css'
 import './App.less'
+
+const EMPTY_HUNKS = []
 
 function IconoirRedo( props ) {
   return (
@@ -18,8 +24,41 @@ function IconoirUndo( props ) {
   )
 }
 
+// const renderToken = ( token, defaultRender, i ) => {
+//   switch ( token.type ) {
+//   case 'space':
+//     return (
+//       <span key={i} className="space">
+//         {token.children && token.children.map( ( token, i ) => renderToken( token, defaultRender, i ) )}
+//       </span>
+//     )
+//   default:
+//     return defaultRender( token, i )
+//   }
+// }
+
+function DiffViewer( { transition } ) {
+  const [ { type, hunks } ] = parseDiff( transition.diff, {
+    nearbySequence: 'zip',
+  } )
+
+  const tokens = useMemo( () => tokenize( {
+    hunks,
+    oldSource: transition.oldSource
+  } ), [ hunks, transition ] )
+
+  return <Diff
+    viewType="split"
+    diffType={ type }
+    hunks={ hunks || EMPTY_HUNKS }
+    tokens={ tokens }
+  >
+    { hunks => hunks.map( hunk => <Hunk key={ hunk.content } hunk={ hunk } /> ) }
+  </Diff>
+}
+
 function App( props ) {
-  const { highlighter, transitions } = props
+  const { transitions } = props
 
   const selectOptions = useMemo(
     () => {
@@ -30,7 +69,7 @@ function App( props ) {
       const files = Object.keys( transitions )
 
       return files.map( file => ( {
-        label: file + ` ( ${ transitions[ file ].length === 1 ? 'No changes' : transitions[ file ].length - 1 + ' changes' } )`,
+        label: file + ` ( ${ hasTransition( transitions[ file ] ) ? transitions[ file ].length + ' changes' : 'No changes' } )`,
         value: file,
       } ) )
     },
@@ -69,16 +108,8 @@ function App( props ) {
     setIndex( 0 )
   }
 
-  function highlight( code = '' ) {
-    const tokens = highlighter.codeToThemedTokens( code, 'js' )
-    return <div
-      dangerouslySetInnerHTML={{
-        __html: renderToHtml( tokens, {
-          fg: highlighter.getForegroundColor(),
-          bg: 'inherit'
-        } )
-      }}>
-    </div>
+  function hasTransition( trans = [] ) {
+    return trans.length > 0
   }
 
   return <div className="container">
@@ -93,25 +124,25 @@ function App( props ) {
 
       <div className="controls">
         <div
-          className={ 'control-item ' + ( index <= 0 ? 'is-disabled' : '' ) }
+          className={ 'control-item ' + ( index === 0 ? 'is-disabled' : '' ) }
           onClick={ () => setIndex( index => index - 1 ) }
         >
           <IconoirUndo></IconoirUndo>
         </div>
 
         <div
-          className={ 'control-item ' + ( index >= ( transitions[ file ].length - 2 ) ? 'is-disabled' : '' ) }
+          className={ 'control-item ' + ( index === ( transitions[ file ].length - 1 ) ? 'is-disabled' : '' ) }
           onClick={ () => setIndex( index => index + 1 ) }
         >
           <IconoirRedo></IconoirRedo>
         </div>
 
         {
-          transitions[ file ].length > 1 ?
+          hasTransition( transitions[ file ] ) ?
             <>
-              <span className="transition-info">( { ( index + 1 ) } / { transitions[ file ].length - 1 } )</span>
-              <span className="transition-info">{ transitions[ file ][ index + 1 ].pluginAlias }</span>
-              <span className="transition-info">{ transitions[ file ][ index + 1 ].currentNode }:{ transitions[ file ][ index + 1 ].visitorType }</span>
+              <span className="transition-info">( { ( index + 1 ) } / { transitions[ file ].length } )</span>
+              <span className="transition-info">{ transitions[ file ][ index ].pluginAlias }</span>
+              <span className="transition-info">{ transitions[ file ][ index ].currentNode }:{ transitions[ file ][ index ].visitorType }</span>
             </> :
             null
         }
@@ -120,15 +151,8 @@ function App( props ) {
 
     <div className="diff-view">
       {
-        transitions[ file ].length > 1 ?
-          <ReactDiffViewer
-            styles={ newStyles }
-            oldValue={ transitions[ file ][ index ].code }
-            newValue={ transitions[ file ][ index + 1 ].code }
-            splitView={ true }
-            useDarkTheme={ false }
-            renderContent={ highlight }
-          /> :
+        hasTransition( transitions[ file ] ) ?
+          <DiffViewer transition={ transitions[ file ][ index ] } /> :
           <div style={{ padding: '20px' }}>No changes</div>
       }
     </div>
@@ -136,3 +160,14 @@ function App( props ) {
 }
 
 export default App
+
+/*
+<ReactDiffViewer
+            styles={ newStyles }
+            oldValue={ transitions[ file ][ index ].code }
+            newValue={ transitions[ file ][ index + 1 ].code }
+            splitView={ true }
+            useDarkTheme={ false }
+            renderContent={ highlight }
+          /> :
+*/

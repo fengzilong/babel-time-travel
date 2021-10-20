@@ -1,9 +1,11 @@
 #!/usr/bin/env node
+/* eslint-disable no-magic-numbers */
 
 const path = require( 'path' )
 const chalk = require( 'chalk' )
 const execa = require( 'execa' )
 const { clearData } = require( '../lib/hijack' )
+const generateDiffs = require( '../lib/diff' )
 
 ;( async () => {
   clearData()
@@ -20,13 +22,15 @@ const { clearData } = require( '../lib/hijack' )
       }
     )
 
-    process.on( 'SIGINT', () => {
-      subprocess.kill( 'SIGINT', {
-        forceKillAfterTimeout: 1000
+    process.on( 'SIGTERM', () => {
+      subprocess.kill( 'SIGTERM', {
+        forceKillAfterTimeout: 0
       } )
     } )
 
     await subprocess
+
+    await generateDiffs()
 
     require( '../lib/serve' )()
   } catch ( e ) {
