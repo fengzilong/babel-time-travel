@@ -20,6 +20,12 @@ const { clearData } = require( '../lib/hijack' )
       }
     )
 
+    process.on( 'SIGINT', () => {
+      subprocess.kill( 'SIGINT', {
+        forceKillAfterTimeout: 1000
+      } )
+    } )
+
     await subprocess
 
     require( '../lib/serve' )()
@@ -27,5 +33,4 @@ const { clearData } = require( '../lib/hijack' )
     console.log( e )
   }
 } )()
-
 
