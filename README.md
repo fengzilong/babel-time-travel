@@ -28,7 +28,10 @@ btt babel src --out-dir lib
 btt ... # any other command
 ```
 
-Please note that blackboxed `babel` should run in the same process with your command
+Please note
+
+- Blackboxed `babel` should run in the same process with your command
+- Files in node_modules is excluded by default for better performance
 
 ## Thanks
 
