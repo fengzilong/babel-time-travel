@@ -4,9 +4,9 @@
 [![npm](https://img.shields.io/npm/dm/babel-time-travel.svg)](https://www.npmjs.org/package/babel-time-travel)
 [![npm](https://img.shields.io/npm/l/babel-time-travel.svg)](https://www.npmjs.org/package/babel-time-travel)
 
-<img src="media/screenshot.jpg" alt="screenshot" width="450" />
+<img src="media/screenshot.jpg" alt="screenshot" width="650" />
 
-<img src="media/screenshot2.jpg" alt="screenshot" width="450" />
+<img src="media/screenshot2.jpg" alt="screenshot" width="650" />
 
 Tell you the story about how every babel plugin transform your file inside a blackbox
 
