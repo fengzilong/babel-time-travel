@@ -68,6 +68,12 @@ function App( props ) {
   )
   const [ index, setIndex ] = useState( 0 )
 
+  useEffect( () => {
+    if ( !file ) {
+      alert( 'No file included' )
+    }
+  }, [] )
+
   function onChange( selected ) {
     setFile( selected.value )
     setIndex( 0 )

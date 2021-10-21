@@ -10,42 +10,42 @@ const generateDiffs = require( '../lib/diff' )
 const pkg = require( '../package.json' )
 
 cli
+  .command( '', 'Run babel time travel' )
   .option( '--filter <filter>', 'Filter files' )
+  .action( async ( options = {} ) => {
+    const { filter = '', '--': command = [] } = options
+
+    clearData()
+
+    try {
+      const subprocess = execa.command(
+        command.join( ' ' ),
+        {
+          preferLocal: true,
+          stdio: 'inherit',
+          env: {
+            NODE_OPTIONS: `--require ${ path.join( __dirname, '../lib/preload.js' ) }`,
+            BTT_FILTER: filter,
+          }
+        }
+      )
+
+      process.on( 'SIGTERM', () => {
+        subprocess.kill( 'SIGTERM', {
+          forceKillAfterTimeout: 0
+        } )
+      } )
+
+      await subprocess
+
+      await generateDiffs()
+
+      require( '../lib/serve' )()
+    } catch ( e ) {
+      console.log( e )
+    }
+  } )
 cli.help()
 cli.version( pkg.version )
-const parsed = cli.parse()
-
-;( async () => {
-  const { filter = '', '--': command } = parsed.options || {}
-
-  clearData()
-
-  try {
-    const subprocess = execa.command(
-      command.join( ' ' ),
-      {
-        preferLocal: true,
-        stdio: 'inherit',
-        env: {
-          NODE_OPTIONS: `--require ${ path.join( __dirname, '../lib/preload.js' ) }`,
-          BTT_FILTER: filter,
-        }
-      }
-    )
-
-    process.on( 'SIGTERM', () => {
-      subprocess.kill( 'SIGTERM', {
-        forceKillAfterTimeout: 0
-      } )
-    } )
-
-    await subprocess
-
-    await generateDiffs()
-
-    require( '../lib/serve' )()
-  } catch ( e ) {
-    console.log( e )
-  }
-} )()
+cli.parse()
 
