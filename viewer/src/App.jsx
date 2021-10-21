@@ -24,19 +24,6 @@ function IconoirUndo( props ) {
   )
 }
 
-// const renderToken = ( token, defaultRender, i ) => {
-//   switch ( token.type ) {
-//   case 'space':
-//     return (
-//       <span key={i} className="space">
-//         {token.children && token.children.map( ( token, i ) => renderToken( token, defaultRender, i ) )}
-//       </span>
-//     )
-//   default:
-//     return defaultRender( token, i )
-//   }
-// }
-
 function DiffViewer( { transition } ) {
   const [ { type, hunks } ] = parseDiff( transition.diff, {
     nearbySequence: 'zip',
@@ -81,28 +68,6 @@ function App( props ) {
   )
   const [ index, setIndex ] = useState( 0 )
 
-  const newStyles = {
-    variables: {
-      dark: {
-        removedBackground: '#c8636360',
-        wordRemovedBackground: '#b14b4b60',
-        removedGutterBackground: '#c8636360',
-
-        addedGutterBackground: '#2e9d6060',
-        addedBackground: '#2e9d6060',
-        wordAddedBackground: '#1d854c60'
-      },
-    },
-    line: {
-      padding: '5px 2px'
-    },
-    codeFold: {
-      a: {
-        textDecoration: 'none!important',
-      },
-    }
-  }
-
   function onChange( selected ) {
     setFile( selected.value )
     setIndex( 0 )
@@ -110,6 +75,10 @@ function App( props ) {
 
   function hasTransition( trans = [] ) {
     return trans.length > 0
+  }
+
+  if ( !file ) {
+    return null
   }
 
   return <div className="container">

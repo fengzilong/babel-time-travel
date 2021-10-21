@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "babel src --out-dir lib",
-    "debug": "node ../../bin/index.js npm run build"
+    "debug": "node ../../bin/index.js --filter index -- npm run build"
   },
   "keywords": [],
   "author": "",

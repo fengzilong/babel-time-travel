@@ -22,16 +22,28 @@ npm i babel-time-travel -g
 
 To use it, simply add your own command after `btt`
 
+> Format: btt [options] -- [your-command]
+
 ```bash
-btt npm run build
-btt babel src --out-dir lib
-btt ... # any other command
+btt -- npm run build
+btt -- babel src --out-dir lib
+btt -- ... # any other command
 ```
 
-Please note
+With options
+
+- --filter
+
+  ```bash
+  btt --filter axios/lib -- npm run build
+  ```
+
+  If babel-time-travel is slow running in your project, you can limit it to only run on certain files by using `--filter` option
+
+Note
 
 - Blackboxed `babel` should run in the same process with your command
-- Files in node_modules is excluded by default for better performance
+- options like `--filter` should placed before `--`
 
 ## Thanks
 
