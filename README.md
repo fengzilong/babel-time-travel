@@ -43,7 +43,8 @@ With options
 Note
 
 - Blackboxed `babel` should run in the same process with your command
-- options like `--filter` should placed before `--`
+- Don't cache any babel transformation result( like babel-loader caching )
+- Options like `--filter` should placed before `--`
 
 ## Thanks
 
