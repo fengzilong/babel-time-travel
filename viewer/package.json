@@ -8,6 +8,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.3.1",
     "prism-color-variables": "^1.0.1",
     "react": "^17.0.0",
     "react-diff-view": "^2.4.8",

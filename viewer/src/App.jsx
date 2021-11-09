@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { parseDiff, Diff, Hunk } from 'react-diff-view'
 import Select from 'react-select'
+import { DiffEditor } from '@monaco-editor/react'
 import tokenize from './tokenize'
 
 import 'react-diff-view/style/index.css'
@@ -127,7 +128,13 @@ function App( props ) {
     <div className="diff-view">
       {
         hasTransition( transitions[ file ] ) ?
-          <DiffViewer transition={ transitions[ file ][ index ] } /> :
+          <DiffEditor
+            height={ '500px' }
+            language="javascript"
+            original={ transitions[ file ][ index ].oldSource }
+            modified={ transitions[ file ][ index ].newSource }
+          /> :
+          // <DiffViewer transition={ transitions[ file ][ index ] } /> :
           <div style={{ padding: '20px' }}>No changes</div>
       }
     </div>
